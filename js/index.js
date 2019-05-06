@@ -1,17 +1,13 @@
 var isMobile = false
-var oscFirst = new Tone.Oscillator({
-  type  : 'sine' ,
-  frequency  : 440 ,
-}).toMaster();
-var oscSecond = new Tone.Oscillator({
-  type  : 'square' ,
-  frequency  : 200 ,
-}).toMaster();
-
-var button_start;
-var button_stop;
 var x,y,d;
+var sample = []
+var v = []
 
+
+for(var i=0;i<6;i++) {
+  sample[i] = new Tone.Player(`./Gyro_FX/Gyro_FX${i + 1}.wav`).toMaster();
+  v[i] = 0;
+}
 
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
@@ -33,13 +29,14 @@ function setup(){
 
 
 function touchStarted() {
-    console.log(oscFirst.state)
-    if(oscFirst.state == 'stopped') {
-      oscFirst.start()
-      oscSecond.start()
+  if (sample[0].state == 'stopped') {
+      sample.forEach((s)=> {
+        s.start()
+      })
     } else {
-      oscFirst.stop()
-      oscSecond.stop()
+      sample.forEach((s)=> {
+        s.stop()
+      })
     }
 }
 
@@ -54,22 +51,76 @@ function draw() {
   textSize(20);
   fill('white');
 
-  if(oscFirst.state == 'started') {
+  if(sample[0].state == 'started') {
     if (isMobile){
       
+      if(rotateX > 0) {
+        v[0] = map(rotationX, 0, 180, 0, 100)
+        v[1] = 0
+      } else {
+        v[0] = 1
+        v[1] = map(rotationX, 0, -180, 0, 100)
+      }
+
+      if (rotateX > 0) {
+        v[0] = map(rotationX, 0, 180, 0, 100)
+        v[1] = 0
+      } else {
+        v[0] = 1
+        v[1] = map(rotationX, 0, -180, 0, 100)
+      }
+      
+      rotationZ = (rotationZ > 180) ? rotationZ - 360 : rotationZ
+
+      if (rotationZ > 0 ) {
+        v[2] = map(rotationX, 0, 180, 0, 100)
+        v[3] = 0
+      }else {
+        v[2] = 0
+        v[3] = map(rotationX, 0, -180, 0, 100)
+      }
+
+      if (rotationZ > 0) {
+        v[2] = map(rotationX, 0, 180, 0, 100)
+        v[3] = 0
+      } else {
+        v[2] = 0
+        v[3] = map(rotationX, 0, -180, 0, 100)
+      }
+
+      if (rotationY> 0) {
+        v[4] = map(rotationX, 0, 90, 0, 100)
+        v[5] = 0
+      } else {
+        v[4] = 0
+        v[5] = map(rotationX, 0, -90, 0, 100)
+      }
+
+      var sum =  v.reduce((a, b) => a + b);  
+
+      for(var i=0;i<6;i++) {
+        sample[i].volume.value = ( (v[i]) / (sum) ) * 90
+      }
       // x = map(rotationZ, -180, 180, 0, windowWidth)
       // y = map(rotationY, -90, 90, 0,windowHeight)
       // d = map(rotationX, 0, 180, 100, 200)
       
-      oscFirst.volume.value  =  map((rotationZ > 180)?rotationZ-360:rotationZ,-180,180,0,100)
-      oscSecond.volume.value =  map(rotationX,-90,90,0,100)
+      // oscFirst.volume.value  =  map((rotationZ > 180)?rotationZ-360:rotationZ,-180,180,0,100)
+      // oscSecond.volume.value =  map(rotationX,-90,90,0,100)
       
       
     }else{
       x = mouseX
       y = mouseY
-      oscFirst.volume.value  =  map(mouseX,0,windowWidth,0,100)
-      oscSecond.volume.value =  map(mouseY,0,windowHeight,0,100)
+      
+      v1 = map(mouseX, 0, windowWidth, 0, 100)
+      v2 = map(mouseY, 0, windowHeight, 0, 100)
+
+      sample[0].volume.value = Math.floor([(v1)/(v1+v2)] * 80)
+      sample[1].volume.value = Math.floor([(v2) / (v1 + v2)] * 80)
+      console.log(sample[0].volume.value, sample[1].volume.value)
+      // oscFirst.volume.value  =  map(mouseX,0,windowWidth,0,100)
+      // oscSecond.volume.value =  map(mouseY,0,windowHeight,0,100)
     }
       
   }
