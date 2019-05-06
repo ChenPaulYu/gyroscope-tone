@@ -49,30 +49,30 @@ function draw() {
     if (isMobile){
       
       if(rotateX > 0) {
-        v[0] = map(rotationX, 0, 180, 0, 100)
+        v[0] = Math.floor(map(rotationX, 0, 180, 0, 100))
         v[1] = 0
       } else {
         v[0] = 0
-        v[1] = map(rotationX, 0, -180, 0, 100)
+        v[1] = Math.floor(map(rotationX, 0, -180, 0, 100))
       }
       
       Z = (rotationZ > 180) ? rotationZ - 360 : rotationZ
 
       if (Z > 0 ) {
-        v[2] = map(Z, 0, 180, 0, 100)
+        v[2] = Math.floor(map(Z, 0, 180, 0, 100))
         v[3] = 0
       }else {
         v[2] = 0
-        v[3] = map(Z, 0, -180, 0, 100)
+        v[3] = Math.floor(map(Z, 0, -180, 0, 100))
       }
 
 
       if (rotationY > 0) {
-        v[4] = map(rotationY, 0, 90, 0, 100)
+        v[4] = Math.floor(map(rotationY, 0, 90, 0, 100))
         v[5] = 0
       } else {
         v[4] = 0
-        v[5] = map(rotationY, 0, -90, 0, 100)
+        v[5] = Math.floor(map(rotationY, 0, -90, 0, 100))
       }
 
       var sum =  v.reduce((a, b) => a + b);  
@@ -92,8 +92,8 @@ function draw() {
       x = mouseX
       y = mouseY
       
-      v[0] = map(mouseX, 0, windowWidth, 0, 100)
-      v[1] = map(mouseY, 0, windowHeight, 0, 100)
+      v[0] = Math.floor(map(mouseX, 0, windowWidth, 0, 100))
+      v[1] = Math.floor(map(mouseY, 0, windowHeight, 0, 100))
       v[2] = 0
       v[3] = 0
       v[4] = 0
