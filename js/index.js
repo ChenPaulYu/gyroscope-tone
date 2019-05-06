@@ -109,11 +109,11 @@ function draw() {
   text(`Z:${rotationZ}`, 10, 70);
   text(`Sum:${sum}`, 10, 90);
   text(v, 10, 110)
-  text(sample[0].state + ' ' + sample[5].volume.value, 10, 130)
-  text(sample[1].state + ' ' + sample[5].volume.value, 10, 150)
-  text(sample[2].state + ' ' + sample[5].volume.value, 10, 170)
-  text(sample[3].state + ' ' + sample[5].volume.value, 10, 190)
-  text(sample[4].state + ' ' + sample[5].volume.value, 10, 210)
+  text(sample[0].state + ' ' + sample[0].volume.value, 10, 130)
+  text(sample[1].state + ' ' + sample[1].volume.value, 10, 150)
+  text(sample[2].state + ' ' + sample[2].volume.value, 10, 170)
+  text(sample[3].state + ' ' + sample[3].volume.value, 10, 190)
+  text(sample[4].state + ' ' + sample[4].volume.value, 10, 210)
   text(sample[5].state + ' ' + sample[5].volume.value, 10, 230)
   textSize(20);
   fill('white');
