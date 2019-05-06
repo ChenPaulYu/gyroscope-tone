@@ -45,12 +45,6 @@ function touchStarted() {
 
 function draw() {
   
-  background(22)
-  text(`X:${rotationX}`, 10, 30);
-  text(`Y:${rotationY}`, 10, 50);
-  text(`Z:${rotationZ}`, 10, 70);
-  textSize(20);
-  fill('white');
 
   if(sample[0].state == 'started') {
     if (isMobile){
@@ -115,7 +109,14 @@ function draw() {
       
   }
 
-  
+  background(22)
+  text(`X:${rotationX}`, 10, 30);
+  text(`Y:${rotationY}`, 10, 50);
+  text(`Z:${rotationZ}`, 10, 70);
+  text(`SUM:${sum}`, 10, 90);
+  text(JSON.stringify(v), 10, 110)
+  textSize(20);
+  fill('white');
   
   circle(x, y, d)
 
