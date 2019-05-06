@@ -78,14 +78,9 @@ function draw() {
       var sum =  v.reduce((a, b) => a + b);  
 
       for(var i=0;i<6;i++) {
-        sample[i].volume.value = ( (v[i]) / (sum) ) * 80
+        sample[i].volume.value = ( (v[i]) / (sum) ) * 90
       }
-      // x = map(rotationZ, -180, 180, 0, windowWidth)
-      // y = map(rotationY, -90, 90, 0,windowHeight)
-      // d = map(rotationX, 0, 180, 100, 200)
-      
-      // oscFirst.volume.value  =  map((rotationZ > 180)?rotationZ-360:rotationZ,-180,180,0,100)
-      // oscSecond.volume.value =  map(rotationX,-90,90,0,100)
+
       
       
     }else{
@@ -114,6 +109,12 @@ function draw() {
   text(`Z:${rotationZ}`, 10, 70);
   text(`Sum:${sum}`, 10, 90);
   text(v, 10, 110)
+  text(sample[0].state + ' ' + sample[5].volume.value, 10, 130)
+  text(sample[1].state + ' ' + sample[5].volume.value, 10, 150)
+  text(sample[2].state + ' ' + sample[5].volume.value, 10, 170)
+  text(sample[3].state + ' ' + sample[5].volume.value, 10, 190)
+  text(sample[4].state + ' ' + sample[5].volume.value, 10, 210)
+  text(sample[5].state + ' ' + sample[5].volume.value, 10, 230)
   textSize(20);
   fill('white');
   
