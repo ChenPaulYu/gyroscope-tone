@@ -48,7 +48,7 @@ function draw() {
   if(sample[0].state == 'started') {
     if (isMobile){
       
-      if(rotateX > 0) {
+      if (rotationX > 0) {
         v[0] = Math.floor(map(rotationX, 0, 180, 0, 100))
         v[1] = 0
       } else {
