@@ -8,6 +8,10 @@ for(var i=0;i<6;i++) {
   sample[i] = new Tone.Player(`./Gyro_FX/Gyro_FX${i + 1}.wav`).toMaster();
   v[i] = 0;
 }
+var osc = new Tone.Oscillator({
+  type: 'sine',
+  frequency: 440,
+}).toMaster();
 
 
 if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
@@ -30,14 +34,14 @@ function setup(){
 
 function touchStarted() {
   if (sample[0].state == 'stopped') {
-      sample.forEach((s)=> {
+    sample.forEach((s) => {
         s.start()
-      })
-    } else {
-      sample.forEach((s)=> {
-        s.stop()
-      })
-    }
+    })
+  } else {
+    sample.forEach((s)=> {
+      s.stop()
+    })
+  }
 }
 
 
