@@ -29,7 +29,6 @@ function setup(){
 
 
 function touchStarted() {
-  alert(sample[0].state)
   if (sample[0].state == 'stopped') {
       sample.forEach((s)=> {
         s.start()
@@ -102,7 +101,7 @@ function draw() {
 
       var sum = v.reduce((a, b) => a + b);  
       for(var i = 0;i<6;i++) {
-        sample[i].volume.value = ((v[i]) / (sum)) * 80
+        sample[i].volume.value = Math.floor(((v[i]) / (sum)) * 80)
       }
 
     }
@@ -113,8 +112,8 @@ function draw() {
   text(`X:${rotationX}`, 10, 30);
   text(`Y:${rotationY}`, 10, 50);
   text(`Z:${rotationZ}`, 10, 70);
-  text(`SUM:${sum}`, 10, 90);
-  text(JSON.stringify(v), 10, 110)
+  text(`Sum:${sum}`, 10, 90);
+  text(v, 10, 110)
   textSize(20);
   fill('white');
   
