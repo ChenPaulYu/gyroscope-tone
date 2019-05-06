@@ -41,6 +41,13 @@ function touchStarted() {
           s.start()
       })
     }catch {
+      try {
+        sample.forEach((s) => {
+          s.stop()
+        })
+      }catch {
+        console.log('error')
+      }
       alert('waiting for a minutes, sounds are still loading!')
     }
   } else {
@@ -88,7 +95,7 @@ function draw() {
       var sum =  v.reduce((a, b) => a + b);  
 
       for(var i=0;i<6;i++) {
-        sample[i].volume.value = ( (v[i]) / (sum) ) * 40
+        sample[i].volume.value = ( (v[i]) / (sum) ) * 50
       }
 
       
@@ -106,7 +113,7 @@ function draw() {
 
       var sum = v.reduce((a, b) => a + b);  
       for(var i = 0;i<6;i++) {
-        sample[i].volume.value = Math.floor(((v[i]) / (sum)) * 40)
+        sample[i].volume.value = Math.floor(((v[i]) / (sum)) * 50)
       }
 
     }
