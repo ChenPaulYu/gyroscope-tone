@@ -26,7 +26,7 @@ let handleOrientation = () => {
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
   isMobile = true
   if (window.DeviceOrientationEvent) {
-    window.addEventListener("deviceorientation", handleOrientation, false);
+    window.addEventListener("deviceorientation", handleOrientation, true);
   } else {
     console.log("DeviceOrientationEvent is not supported");
   }
