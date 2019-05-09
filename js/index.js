@@ -1,10 +1,11 @@
 var isMobile = false
-var x,y,d;
+var x, y, d;
 var sample = []
 var v = []
+var compassdir = 0;
 
 
-for(var i=0;i<6;i++) {
+for (var i = 0; i < 6; i++) {
   sample[i] = new Tone.Player(`./Gyro_FX/Gyro_FX${i + 1}.wav`).toMaster();
   v[i] = 0;
 }
@@ -13,21 +14,29 @@ var osc = new Tone.Oscillator({
   frequency: 440,
 }).toMaster();
 
+let handleOrientation = () => {
+  if (event.webkitCompassHeading) {
+    compassdir = event.webkitCompassHeading;
+  } else {
+    compassdir = event.alpha;
+  }
+}
 
-if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-  isMobile=true
-  if(window.DeviceOrientationEvent){
-    window.addEventListener("deviceorientation", orientation, false);
-  }else{
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+  isMobile = true
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener("deviceorientation", handleOrientation, false);
+  } else {
     console.log("DeviceOrientationEvent is not supported");
   }
 }
 
-function setup(){
-  createCanvas(windowWidth,windowHeight)
+function setup() {
+  createCanvas(windowWidth, windowHeight)
   d = 100
-  x = (windowWidth-d)/2  
-  y = (windowHeight-d)/2
+  x = (windowWidth - d) / 2
+  y = (windowHeight - d) / 2
   frameRate(120)
 }
 
@@ -38,20 +47,20 @@ function touchStarted() {
   if (sample[0].state == 'stopped') {
     try {
       sample.forEach((s) => {
-          s.start()
+        s.start()
       })
-    }catch {
+    } catch {
       try {
         sample.forEach((s) => {
           s.stop()
         })
-      }catch {
+      } catch {
         console.log('error')
       }
       alert('waiting for a minutes, sounds are still loading!')
     }
   } else {
-    sample.forEach((s)=> {
+    sample.forEach((s) => {
       s.stop()
     })
   }
@@ -60,11 +69,11 @@ function touchStarted() {
 
 
 function draw() {
-  
 
-  if(sample[0].state == 'started') {
-    if (isMobile){
-      
+
+  if (sample[0].state == 'started') {
+    if (isMobile) {
+
       if (rotationX > 0) {
         v[0] = Math.floor(map(rotationX, 0, 180, 0, 100))
         v[1] = 0
@@ -72,13 +81,13 @@ function draw() {
         v[0] = 0
         v[1] = Math.floor(map(rotationX, 0, -180, 0, 100))
       }
-      
+
       Z = (rotationZ > 180) ? rotationZ - 360 : rotationZ
 
-      if (Z > 0 ) {
+      if (Z > 0) {
         v[2] = Math.floor(map(Z, 0, 180, 0, 100))
         v[3] = 0
-      }else {
+      } else {
         v[2] = 0
         v[3] = Math.floor(map(Z, 0, -180, 0, 100))
       }
@@ -92,18 +101,18 @@ function draw() {
         v[5] = Math.floor(map(rotationY, 0, -90, 0, 100))
       }
 
-      var sum =  v.reduce((a, b) => a + b);  
+      var sum = v.reduce((a, b) => a + b);
 
-      for(var i=0;i<6;i++) {
-        sample[i].volume.value = ( (v[i]) / (sum) ) * 50
+      for (var i = 0; i < 6; i++) {
+        sample[i].volume.value = ((v[i]) / (sum)) * 50
       }
 
-      
-      
-    }else{
+
+
+    } else {
       x = mouseX
       y = mouseY
-      
+
       v[0] = Math.floor(map(mouseX, 0, windowWidth, 0, 100))
       v[1] = Math.floor(map(mouseY, 0, windowHeight, 0, 100))
       v[2] = 0
@@ -111,13 +120,13 @@ function draw() {
       v[4] = 0
       v[5] = 0
 
-      var sum = v.reduce((a, b) => a + b);  
-      for(var i = 0;i<6;i++) {
+      var sum = v.reduce((a, b) => a + b);
+      for (var i = 0; i < 6; i++) {
         sample[i].volume.value = Math.floor(((v[i]) / (sum)) * 50)
       }
 
     }
-      
+
   }
 
   background(22)
@@ -132,9 +141,10 @@ function draw() {
   text(sample[3].state + ' ' + sample[3].volume.value, 10, 190)
   text(sample[4].state + ' ' + sample[4].volume.value, 10, 210)
   text(sample[5].state + ' ' + sample[5].volume.value, 10, 230)
+  text(compassdir, 10, 250)
   textSize(20);
   fill('white');
-  
+
   circle(x, y, d)
 
 }
