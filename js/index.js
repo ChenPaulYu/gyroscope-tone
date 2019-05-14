@@ -3,16 +3,17 @@ var x, y, d;
 var sample = []
 var v = []
 var compassdir = 0;
+var compressor = new Tone.Compressor(-30, -6).toMaster();
 
 
 for (var i = 0; i < 6; i++) {
-  sample[i] = new Tone.Player(`./Gyro_FX/Gyro_FX${i + 1}.wav`).toMaster();
+  sample[i] = new Tone.Player(`./Gyro_FX/Gyro_FX${i + 1}.wav`).connect(compressor);
   v[i] = 0;
 }
-var osc = new Tone.Oscillator({
-  type: 'sine',
-  frequency: 440,
-}).toMaster();
+// var osc = new Tone.Oscillator({
+//   type: 'sine',
+//   frequency: 440,
+// }).toMaster();
 
 let handleOrientation = () => {
   if (event.webkitCompassHeading) {
